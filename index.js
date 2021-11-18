@@ -15,7 +15,9 @@ async function publish(options) {
     }
 
     function debug(message) {
-      if ( verbose ) console.log(`[DEBUG] ${message}`)
+      if (verbose) {
+        console.log(`[DEBUG] ${message}`)
+      }
     }
 
     const stageDir = Path.resolve(process.cwd(), './build/stage')
