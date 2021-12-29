@@ -104,6 +104,18 @@ async function publish(options) {
       throw new Error('No files found within the stage directory: ' + tagDir);
     }
 
+    const assets = await client.repos.listReleaseAssets({
+      owner,
+      repo,
+      release_id: release.id,
+    });
+
+    await Promise.all(assets.data.filter(a => a.state === 'starter').map(a => client.repos.deleteReleaseAsset({
+      owner,
+      repo,
+      asset_id: a.id,
+    })));
+
     // Upload assets to Github
     await files.reduce(async (p, file) => {
       await p
